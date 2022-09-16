@@ -1,5 +1,6 @@
 import React from "react";
 import { PropagateLoader } from "react-spinners";
+import network from "../network";
 
 function Loading() {
   return (
@@ -11,7 +12,10 @@ function Loading() {
           alt=""
         ></img>
         <h1 className="text-lg text-white font-bold">
-          Loading the T00B11ASS Lottery
+          Connecting to {network}
+        </h1>
+        <h1 className="text-lg text-white font-bold">
+          Loading the T00B11ASS Lottery...
         </h1>
       </div>
       <PropagateLoader color="white"></PropagateLoader>

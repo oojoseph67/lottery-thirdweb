@@ -21,6 +21,7 @@ import CountdownTimer from "../components/countdownTimer";
 import toast from "react-hot-toast";
 import Marquee from "react-fast-marquee";
 import AdminControls from "../components/adminControls";
+import Footer from "../components/footer";
 
 export default function Home() {
   const [userTickets, setUserTickets] = useState(0);
@@ -31,17 +32,14 @@ export default function Home() {
     process.env.NEXT_PUBLIC_LOTTERY_CONTRACT_ADDRESS
   );
 
-  const { data: remainingTickets } = useContractRead(
-    contract,
-    "RemainingTickets"
-  );
+  const { data: remainingTickets } = useContractRead(contract,"RemainingTickets");
   const { data: pricePool } = useContractRead(contract, "CurrentWinningReward");
+
   const { data: ticketPrice } = useContractRead(contract, "ticketPrice");
-  const { data: ticketCommission } = useContractRead(
-    contract,
-    "ticketCommission"
-  );
+  const { data: ticketCommission } = useContractRead(contract, "ticketCommission");
+  
   const { data: expiration } = useContractRead(contract, "expiration");
+
   const { mutateAsync: BuyTickets } = useContractWrite(contract, "BuyTickets");
   const { data: tickets } = useContractRead(contract, "getTickets");
   
@@ -69,6 +67,7 @@ export default function Home() {
   console.log(userTickets);
   console.log(address);
 
+  // buying ticket function
   const handleClick = async () => {
     if (!ticketPrice) return;
     const notification = toast.loading("Buying your tickets");
@@ -95,6 +94,7 @@ export default function Home() {
     }
   };
 
+  // withdrawing commission function
   const onWithdrawWinnings = async () => {
     const notification = toast.loading("Withdrawing winnings...");
     try {
@@ -116,8 +116,12 @@ export default function Home() {
 
   return (
     <div className="bg-emerald-900 min-h-screen flex flex-col">
+      {/* header */}
       <Header></Header>
+
       <br></br>
+
+      {/* slider for last-winner */}
       <Marquee className="bg-[#0A1F1C] p-5 mb-5" gradient={false} speed={100}>
         <div className="flex space-x-2 mx-18">
           <h4 className="text-white font-bold">
@@ -133,12 +137,14 @@ export default function Home() {
         </div>
       </Marquee>
       
+      {/* admin controls */}
       {isLotteryOperator === address && (
         <div className="flex justify-center">
           <AdminControls></AdminControls>
         </div>
       )}
 
+      {/* withdraw proceeds notification */}
       {winnings > 0 && (
         <div className="max-w-md md:max-w-2xl lg:max-w-4xl mx-auto mt-5">
           <button
@@ -155,6 +161,7 @@ export default function Home() {
           </button>
         </div>
       )}
+
       {/* the next draw box */}
       <div className="space-y-5 md:space-y-0 m-5 md:flex md:flex-row items-start justify-center md:space-x-5">
         <div className="stats-container">
@@ -162,6 +169,7 @@ export default function Home() {
             The Next Draw
           </h1>
           <div className="flex justify-between p-2 space-x-2">
+            {/* total pool */}
             <div className="stats">
               <h2 className="text-sm">Total Pool</h2>
               <p className="text-xl">
@@ -169,6 +177,7 @@ export default function Home() {
                 {""} {currency}
               </p>
             </div>
+            {/* tickets remaining */}
             <div className="stats">
               <h2 className="text-sm">Tickets Remaining</h2>
               <p className="text-xl">{remainingTickets?.toNumber()}</p>
@@ -179,6 +188,8 @@ export default function Home() {
             <CountdownTimer></CountdownTimer>
           </div>
         </div>
+
+        {/* price per tickets */}
         <div className="stats-container space-y-2">
           <div className="stats-container">
             <div className="flex justify-between items-center text-white pb-2">
@@ -211,19 +222,19 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between text-emerald-300 text-s italic font-extrabold">
+              {/* <div className="flex items-center justify-between text-emerald-300 text-s italic font-extrabold">
                 <p>Service Fees</p>
                 <p>
                   {ticketCommission &&
                     ethers.utils.formatEther(ticketCommission.toString())}{" "}
                   {""} {currency}
                 </p>
-              </div>
+              </div> */}
 
-              <div className="flex items-center justify-between text-emerald-300 text-s italic font-extrabold">
+              {/* <div className="flex items-center justify-between text-emerald-300 text-s italic font-extrabold">
                 <p>+ Network Fees</p>
                 <p>TBC</p>
-              </div>
+              </div> */}
             </div>
             <button
               onClick={handleClick}
@@ -240,6 +251,8 @@ export default function Home() {
               {currency}
             </button>
           </div>
+
+          {/* number of tickets owned by the user */}
           {userTickets > 0 && (
             <div className="stats">
               <p className="text-lg mb-2">
@@ -260,26 +273,8 @@ export default function Home() {
             </div>
           )}
         </div>
-        {/* the price per ticket box */}
-        <div></div>
       </div>
-      <footer className="border-t border-emerald-500/20 flex items-center text-white justify-between p-5">
-        <img
-          className="h-10 w-10 filter hue-rotate-90 opacity-20 rounded-full"
-          src="https://i0.wp.com/bulls-world.com/wp-content/uploads/2022/07/maddog-pfp.jpg.png?fit=647%2C655&ssl=1"
-          alt=""
-        ></img>
-
-        <p className="text-m text-emerald-500 pl-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </footer>
+      {/* <Footer></Footer> */}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React from "react";
 import NavButton from "./navButton";
 import { Bars3BottomRightIcon } from "@heroicons/react/24/solid";
 import { useAddress, useMetamask, useDisconnect } from "@thirdweb-dev/react";
+import network from "../network";
 
 function Header() {
   const connectWithMetamask = useMetamask();
@@ -39,6 +40,8 @@ function Header() {
         <div className="bg-[#0A1F1C] p-4 space-x-2">
           <NavButton isActive title="Buy Tickets"></NavButton>
           <NavButton onClick={disconnect} title="LogOut"></NavButton>
+          {/* <br></br>
+          <p className="text-white">Make sure you are on the {network} chain</p> */}
         </div>
       </div>
 
