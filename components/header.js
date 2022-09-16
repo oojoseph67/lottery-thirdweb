@@ -1,13 +1,33 @@
 import React from "react";
 import NavButton from "./navButton";
 import { Bars3BottomRightIcon } from "@heroicons/react/24/solid";
-import { useAddress, useMetamask, useDisconnect } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useMetamask,
+  useDisconnect,
+  useNetworkMismatch,
+  useNetwork,
+  useChainId,
+  ChainId,
+  ConnectWallet,
+} from "@thirdweb-dev/react";
 import network from "../network";
+import { useEffect } from "react";
 
 function Header() {
   const connectWithMetamask = useMetamask();
-  const address = useAddress();
+  const address = useAddress(); // get connected wallet address
   const disconnect = useDisconnect();
+  const isMismatched = useNetworkMismatch(); // switch to desired chain
+  const [, switchNetwork] = useNetwork(); // detect id user is connected to the wrong network
+
+  useEffect(() => {
+    // check if the user is connected to the wrong address
+    if (isMismatched) {
+      // prompt their wallet to switch networks
+      switchNetwork(ChainId.Rinkeby);
+    }
+  }, [address]); // runs every time "address" changes
   return (
     <header className="grid grid-cols-2 md:grid-cols-5">
       <div className="flex items-center space-x-2">
@@ -42,6 +62,7 @@ function Header() {
           <NavButton onClick={disconnect} title="LogOut"></NavButton>
           {/* <br></br>
           <p className="text-white">Make sure you are on the {network} chain</p> */}
+                  <ConnectWallet></ConnectWallet>
         </div>
       </div>
 

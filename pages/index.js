@@ -27,7 +27,7 @@ export default function Home() {
   const [userTickets, setUserTickets] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
-  const address = useAddress();
+  const address = useAddress(); // get connected wallet address
   const { contract, isLoading } = useContract(
     process.env.NEXT_PUBLIC_LOTTERY_CONTRACT_ADDRESS
   );

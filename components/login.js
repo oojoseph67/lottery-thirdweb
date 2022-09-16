@@ -1,9 +1,8 @@
 import { useAddress, useMetamask } from "@thirdweb-dev/react";
-import React from "react";
 import network from '../network'
 
 function Login() {
-  const connectWithMetamask = useMetamask();
+    const connectWithMetamask = useMetamask(); // use metamask connector automatically
   return (
     <div className="bg-[#091818] min-h-screen flex flex-col items-center justify-center text-center">
       <img
@@ -12,10 +11,8 @@ function Login() {
         alt="image"
       ></img>
         <h1 className="text-6xl text-white font-bold">T00B11ASS Lottery</h1>
-        <br></br>
-      <h2 className="text-white">
-        Get Started By Logging in with your Metamask <b>(Make sure you are connected to {network})</b>
-      </h2>
+          <br></br>
+      <h2 className="text-white"> Get Started By Logging in with your Metamask </h2>
 
       <button
         onClick={connectWithMetamask}
@@ -23,6 +20,7 @@ function Login() {
       >
         Login with Metamask
       </button>
+      {/* <ConnectWallet></ConnectWallet> */}
     </div>
   );
 }
