@@ -62,7 +62,7 @@ function Header() {
           <NavButton onClick={disconnect} title="LogOut"></NavButton>
           {/* <br></br>
           <p className="text-white">Make sure you are on the {network} chain</p> */}
-                  <ConnectWallet></ConnectWallet>
+          {/* <ConnectWallet accentColor="#f213a4" colorMode="dark" ></ConnectWallet> */}
         </div>
       </div>
 
