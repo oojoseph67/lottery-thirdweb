@@ -10,9 +10,12 @@ import {
   useChainId,
   ChainId,
   ConnectWallet,
+  useBalance,
 } from "@thirdweb-dev/react";
 import network from "../network";
+import { ethers } from "ethers";
 import { useEffect } from "react";
+import currency from "../constants";
 
 function Header() {
   const connectWithMetamask = useMetamask();
@@ -21,13 +24,28 @@ function Header() {
   const isMismatched = useNetworkMismatch(); // switch to desired chain
   const [, switchNetwork] = useNetwork(); // detect id user is connected to the wrong network
 
+  const balance = useBalance();
+  console.log(`here is your balance ${balance.data?.displayValue}`);
+  const displayBalance = balance.data?.displayValue;
+
+  //   useEffect(() => {
+  //     // check if the user is connected to the wrong address
+  //     if (isMismatched) {
+  //       // prompt their wallet to switch networks
+  //       switchNetwork(ChainId.Rinkeby);
+  //     }
+  //   }, [address]); // runs every time "address" changes
+
   useEffect(() => {
-    // check if the user is connected to the wrong address
+    networkCheck();
+  }, [address]);
+
+  async function networkCheck() {
     if (isMismatched) {
       // prompt their wallet to switch networks
       switchNetwork(ChainId.Rinkeby);
     }
-  }, [address]); // runs every time "address" changes
+  }
   return (
     <header className="grid grid-cols-2 md:grid-cols-5">
       <div className="flex items-center space-x-2">
@@ -47,6 +65,7 @@ function Header() {
               <h4>
                 Connected as {address?.substring(0, 5)}...
                 {address?.substring(address.length, address.length - 5)}
+                <p>{displayBalance?.substring(0,5)}{currency}</p>
               </h4>
             ) : (
               <button onClick={connectWithMetamask}>

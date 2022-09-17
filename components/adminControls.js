@@ -64,7 +64,7 @@ function AdminControls() {
        // if (!ticketPrice) return;
        const notification = toast.loading("Restarting lottery...");
        try {
-         const data = await withdrawCommission([{}]);
+         const data = await restartDraw([{}]);
 
          toast.success("Restart done successfully", {
            id: notification,
