@@ -1,3 +1,3 @@
-const network = "Rinkeby";
+const network = "Goerli";
 
 export default network;

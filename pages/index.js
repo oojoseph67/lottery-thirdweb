@@ -33,6 +33,9 @@ export default function Home() {
     process.env.NEXT_PUBLIC_LOTTERY_CONTRACT_ADDRESS
   );
 
+  const ticketUserCanBuy = 10 - userTickets 
+  console.log(`ticket user can buy ${ticketUserCanBuy}`)
+
   const balance = useBalance();
   console.log(`here is your balance ${balance.data?.displayValue}`);
 
@@ -68,8 +71,8 @@ export default function Home() {
     setUserTickets(noOfUserTickets);
   }, [tickets, address]);
 
-  console.log(userTickets);
-  console.log(address);
+  console.log(`user tickets ${userTickets}`);
+  console.log(`user address ${address}`);
 
   // buying ticket function
   const handleClick = async () => {
@@ -219,7 +222,7 @@ export default function Home() {
                   className="flex w-full bg-transparent text-right outline-none"
                   type="number"
                   min={1}
-                  max={10}
+                  max={ticketUserCanBuy}
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
                 ></input>
@@ -232,6 +235,13 @@ export default function Home() {
                       Number(ethers.utils.formatEther(ticketPrice.toString())) *
                         quantity}{" "}
                     {currency}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between text-emerald-300 text-s italic font-extrabold">
+                  <p>Ticket available for purchase </p>
+                  <p>
+                    {ticketUserCanBuy} Tickets
                   </p>
                 </div>
 
@@ -252,7 +262,8 @@ export default function Home() {
               {userTickets == 10 ? (
                 <button
                   disabled
-                  className="font-semibold mt-5 w-full bg-gradient-to-br from-orange-500 to-emerald-600 px-10 py-5 rounded-md text-white shadow-xl disabled:text-gray-100 disabled:from-gray-600 disabled:to-gray-100 disabled:cursor-not-allowed">
+                  className="font-semibold mt-5 w-full bg-gradient-to-br from-orange-500 to-emerald-600 px-10 py-5 rounded-md text-white shadow-xl disabled:text-gray-100 disabled:from-gray-600 disabled:to-gray-100 disabled:cursor-not-allowed"
+                >
                   Can't buy more than 10 ticket
                 </button>
               ) : (

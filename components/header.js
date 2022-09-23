@@ -32,7 +32,7 @@ function Header() {
   //     // check if the user is connected to the wrong address
   //     if (isMismatched) {
   //       // prompt their wallet to switch networks
-  //       switchNetwork(ChainId.Rinkeby);
+  //       switchNetwork(ChainId.Goerli);
   //     }
   //   }, [address]); // runs every time "address" changes
 
@@ -43,7 +43,7 @@ function Header() {
   async function networkCheck() {
     if (isMismatched) {
       // prompt their wallet to switch networks
-      switchNetwork(ChainId.Rinkeby);
+      switchNetwork(ChainId.Goerli);
     }
   }
   return (
@@ -65,7 +65,10 @@ function Header() {
               <h4>
                 Connected as {address?.substring(0, 5)}...
                 {address?.substring(address.length, address.length - 5)}
-                <p>{displayBalance?.substring(0,5)}{currency}</p>
+                <p>
+                  {displayBalance?.substring(0, 5)}
+                  {currency}
+                </p>
               </h4>
             ) : (
               <button onClick={connectWithMetamask}>
