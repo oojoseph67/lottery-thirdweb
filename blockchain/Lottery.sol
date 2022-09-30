@@ -4,10 +4,11 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 pragma solidity >=0.7.0 <0.9.0;
 
 contract Lottery {
-    uint256 public constant ticketPrice = 0.01 ether;
-    uint256 public constant maxTickets = 100; // maximum tickets per lottery
-    uint256 public constant ticketCommission = 0.001 ether; // commition per ticket
-    uint256 public constant duration = 30 minutes; // The duration set for the lottery
+    uint256 public ticketPrice = 0.01 ether;
+    uint256 public maxTickets = 100; // maximum tickets per lottery
+    uint256 public ticketCommission = 0.001 ether; // commition per ticket
+    uint256 public duration = 30 minutes; // The duration set for the lottery
+    uint public lotteryId;
 
     uint256 public expiration; // Timeout in case That the lottery was not carried out.
     address public lotteryOperator; // the crator of the lottery
@@ -16,6 +17,10 @@ contract Lottery {
     uint256 public lastWinnerAmount; // the last winner amount of the lottery
 
     mapping(address => uint256) public winnings; // maps the winners to there winnings
+    
+    address payable[] public players;
+    mapping (uint => address) public lotteryHistory;
+    
     address[] public tickets; //array of purchased Tickets
 
     // modifier to check if caller is the lottery operator
@@ -36,6 +41,31 @@ contract Lottery {
     constructor() {
         lotteryOperator = msg.sender;
         expiration = block.timestamp + duration;
+        lotteryId = 1;
+    }
+
+    function setNewOperator(address _newOperator) public isOperator {
+        lotteryOperator = _newOperator;
+    }
+
+    function setticketPrice(uint256 _newticketPrice) public isOperator {
+        ticketPrice = _newticketPrice;
+    }
+
+    function setMaxTickets(uint256 _newMaxTickets) public isOperator {
+        maxTickets = _newMaxTickets;
+    }
+
+    function setTicketCommission(uint256 _newTicketCommission) public isOperator {
+        ticketCommission = _newTicketCommission;
+    }
+
+    function setNewDuration(uint256 _newDuration) public isOperator {
+        duration = _newDuration;
+    }
+
+    function getWinnerByLottery(uint lottery) public view returns (address) {
+        return lotteryHistory[lottery];
     }
 
     // return all the tickets
