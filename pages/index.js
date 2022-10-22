@@ -264,7 +264,7 @@ export default function Home() {
                   disabled
                   className="font-semibold mt-5 w-full bg-gradient-to-br from-orange-500 to-emerald-600 px-10 py-5 rounded-md text-white shadow-xl disabled:text-gray-100 disabled:from-gray-600 disabled:to-gray-100 disabled:cursor-not-allowed"
                 >
-                  Can't buy more than 10 ticket
+                  Can`t buy more than 10 ticket
                 </button>
               ) : (
                 <button
